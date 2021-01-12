@@ -1,4 +1,4 @@
-const getTodos = (callback) => {
+const getTodos = (resource, callback) => {
   const request = new XMLHttpRequest();
   request.addEventListener('readystatechange', () => {
     if (request.readyState === 4 && request.status === 200) {
@@ -11,18 +11,20 @@ const getTodos = (callback) => {
   });
 
   // open method
-  request.open('GET', 'todos.json');
+  request.open('GET', resource);
   //the request isn't being made, just setting up the request
 
   // send request
   request.send();
 };
 
-getTodos((err, data) => {
-  console.log('callback is fired');
-  if (err) {
-    console.log(err);
-  } else {
+// get one of data before move on to the next
+getTodos('todos/luigi.json', (err, data) => {
+  console.log(data);
+  getTodos('todos/mario.json', (err, data) => {
     console.log(data);
-  }
+    getTodos('todos/shaun.json', (err, data) => {
+      console.log(data);
+    });
+  });
 });
