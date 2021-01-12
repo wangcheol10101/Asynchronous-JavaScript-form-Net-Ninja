@@ -11,9 +11,11 @@ request.addEventListener('readystatechange', () => {
   // 상태내용 MDN참조
   console.log(request, request.readyState);
   // if the readyState is equal to 4 that's the point when we can do something with the responseText
-  if (request.readyState === 4) {
+  if (request.readyState === 4 && request.status === 200) {
     // request.responseTest: contains the response data (a giant string called json data)
     console.log(request.responseText);
+  } else if (request.readyState === 4) {
+    console.log('could not fetch the data');
   }
 });
 
