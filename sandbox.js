@@ -1,22 +1,16 @@
-// fetch api
-// pass it a argument which is the resource that we want to fetch (endpoint, local resource...)
-fetch('todos/luigi.json')
-  // this returns to us a promise
-  .then((response) => {
-    console.log('resolved', response);
-    // response.json() gets us the data like json.parse()
-    // response.json() returns a promise
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  // this promise is only ever rejected when we get some kind of network error (e.g. offline)
-  // if we just mistype the url or the resource then we don't get a rejection
-  .catch((err) => {
-    console.log('rejected', err);
-  });
-// fetch() 3 steps
-// 1. fetch the data
-// 2. take the response and return response.json()
-// 3. fire function access to that data
+// async & await
+// whenever we call an asynchronous function that always returns a promise regardless of what's inside
+const getTodos = async () => {
+  // use await keyword instead of then method
+  // await assigning a value to a variable(response) until the promise has resolved
+  const response = await fetch('todos/luigi.json');
+  const data = await response.json();
+  return data;
+};
+
+console.log(1);
+console.log(2);
+// not going to block the rest of the code
+getTodos().then((data) => console.log('resolved:', data));
+console.log(3);
+console.log(4);
