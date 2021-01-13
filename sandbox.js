@@ -1,64 +1,22 @@
-const getTodos = (resource) => {
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest();
-    request.addEventListener('readystatechange', () => {
-      if (request.readyState === 4 && request.status === 200) {
-        const data = JSON.parse(request.responseText);
-        resolve(data);
-      } else if (request.readyState === 4) {
-        reject('error getting resource');
-      }
-    });
-    request.open('GET', resource);
-    request.send();
-  });
-};
-
-getTodos('todos/luigi.json')
-  .then((data) => {
-    console.log('promise 1 resolved:', data);
-    return getTodos('todos/mario.json');
+// fetch api
+// pass it a argument which is the resource that we want to fetch (endpoint, local resource...)
+fetch('todos/luigi.json')
+  // this returns to us a promise
+  .then((response) => {
+    console.log('resolved', response);
+    // response.json() gets us the data like json.parse()
+    // response.json() returns a promise
+    return response.json();
   })
-  .then((data) => {
-    console.log('promise 2 resolved:', data);
-    return getTodos('todos/shaun.json');
-  })
-  .then((data) => {
-    console.log('promise 3 resolved:', data);
-  })
-  .catch((err) => {
-    console.log('promise rejected:', err);
-  });
-
-// promise example
-const getSomething = () => {
-  // to do something in here like get data
-  // when we use promise the first thing we do is return a new promise
-  // Promise is something which is gonna take some time to do
-  // automatically get access to two parameters -- resolve / reject (functions)
-  return new Promise((resolve, reject) => {
-    // do the network request
-    resolve('some data');
-    // reject('some error');
-  });
-};
-
-// fire the first function in then() when resolve the promise
-// the second one fires if we reject
-// the first function takes the data that we passed through to the resolve function
-getSomething().then(
-  (data) => {
-    console.log(data);
-  },
-  (err) => {
-    console.log(err);
-  }
-);
-// a slightly different way we can write
-getSomething()
   .then((data) => {
     console.log(data);
   })
+  // this promise is only ever rejected when we get some kind of network error (e.g. offline)
+  // if we just mistype the url or the resource then we don't get a rejection
   .catch((err) => {
-    console.log(err);
+    console.log('rejected', err);
   });
+// fetch() 3 steps
+// 1. fetch the data
+// 2. take the response and return response.json()
+// 3. fire function access to that data
